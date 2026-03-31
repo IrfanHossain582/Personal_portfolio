@@ -1,0 +1,32 @@
+# Dependencies
+/vendor/
+node_modules/
+
+# Environment & Sensitive Config
+.env
+.env.local
+*.env
+
+# Uploaded user files (these are local only)
+assets/img/profile_*.jpg
+assets/img/profile_*.png
+assets/img/profile_*.webp
+assets/img/logo_*.jpg
+assets/img/logo_*.png
+assets/img/logo_*.png
+assets/img/logo_*.webp
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# PHP logs
+*.log
+error_log
