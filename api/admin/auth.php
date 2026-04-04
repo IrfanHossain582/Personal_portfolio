@@ -1,10 +1,18 @@
 <?php
 // admin/auth.php
-ini_set('session.save_path', '/tmp');
-session_start();
+define('AUTH_SECRET_KEY', 'portfolio_secure_key_2026_irfan'); // In production, move to ENV
+
+function get_auth_token() {
+    return hash_hmac('sha256', 'admin_logged_in', AUTH_SECRET_KEY);
+}
+
+function is_logged_in() {
+    if (!isset($_COOKIE['admin_token'])) return false;
+    return hash_equals(get_auth_token(), $_COOKIE['admin_token']);
+}
 
 function require_login() {
-    if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    if (!is_logged_in()) {
         header('Location: /login');
         exit;
     }

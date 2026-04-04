@@ -10,7 +10,7 @@
     { "src": "/login", "dest": "/api/admin/login.php" },
     { "src": "/admin/dashboard", "dest": "/api/admin/dashboard.php" },
     { "src": "/admin/(.*)", "dest": "/api/admin/$1" },
-    { "src": "/admin", "dest": "/api/admin/dashboard.php" },
+    { "src": "/admin", "dest": "/api/admin/login.php" },
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)", "dest": "/api/index.php" }
   ]
