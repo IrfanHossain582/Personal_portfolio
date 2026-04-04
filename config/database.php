@@ -1,8 +1,9 @@
 <?php
 // config/database.php
 
-define('SUPABASE_URL', 'https://agrjfzzbykziwjdsonew.supabase.co');
-define('SUPABASE_KEY', 'sb_publishable_oJOgqzGUqsDScHuxWGV3cw_PZNwP5SR');
+define('SUPABASE_URL', getenv('SUPABASE_URL') ?: 'https://agrjfzzbykziwjdsonew.supabase.co');
+define('SUPABASE_KEY', getenv('SUPABASE_KEY') ?: 'sb_publishable_oJOgqzGUqsDScHuxWGV3cw_PZNwP5SR');
+define('SUPABASE_SERVICE_KEY', getenv('SUPABASE_SERVICE_KEY') ?: '');
 
 // Function to fetch data from Supabase REST API
 function supabase_fetch($table_name, $select = '*') {

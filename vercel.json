@@ -5,49 +5,20 @@
     }
   },
   "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/admin/login.php",
-      "dest": "/api/admin/login.php"
-    },
-    {
-      "src": "/admin/dashboard.php",
-      "dest": "/api/admin/dashboard.php"
-    },
-    {
-      "src": "/admin/logout.php",
-      "dest": "/api/admin/logout.php"
-    },
-    {
-      "src": "/login",
-      "dest": "/api/admin/login.php"
-    },
-    {
-      "src": "/admin/logout",
-      "dest": "/api/admin/logout.php"
-    },
-    {
-      "src": "/admin/dashboard",
-      "dest": "/api/admin/dashboard.php"
-    },
-    {
-      "src": "/admin",
-      "dest": "/api/admin/login.php"
-    },
-    {
-      "src": "/admin/(.*)",
-      "dest": "/api/admin/$1.php"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.php"
-    }
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/api/contact", "dest": "/api/contact.php" },
+    { "src": "/login", "dest": "/api/admin/login.php" },
+    { "src": "/admin/logout", "dest": "/api/admin/logout.php" },
+    { "src": "/admin/dashboard", "dest": "/api/admin/dashboard.php" },
+    { "src": "/admin/profile", "dest": "/api/admin/profile.php" },
+    { "src": "/admin/skills", "dest": "/api/admin/skills.php" },
+    { "src": "/admin/projects", "dest": "/api/admin/projects.php" },
+    { "src": "/admin/education", "dest": "/api/admin/education.php" },
+    { "src": "/admin/experience", "dest": "/api/admin/experience.php" },
+    { "src": "/admin/achievements", "dest": "/api/admin/achievements.php" },
+    { "src": "/admin/messages", "dest": "/api/admin/messages.php" },
+    { "src": "/admin", "dest": "/api/admin/login.php" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/api/index.php" }
   ]
 }

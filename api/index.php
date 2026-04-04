@@ -56,7 +56,7 @@ $category_icons = [
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <!-- Prevent flash of wrong theme -->
     <script>
         (function() {
@@ -83,7 +83,7 @@ $category_icons = [
             <?php if (!empty($profile['logo_url'])): ?>
                 <img src="<?= htmlspecialchars($profile['logo_url']) ?>" alt="Logo" style="height: 32px; width: auto; object-fit: contain;">
             <?php else: ?>
-                <?= htmlspecialchars(explode(' ', $profile['name'])[0]) ?>.
+                <?= htmlspecialchars(explode(' ', $profile['name'] ?? 'Portfolio')[0]) ?>.
             <?php endif; ?>
         </a>
 
@@ -145,11 +145,19 @@ $category_icons = [
                 </div>
             </div>
             <div class="col-lg-5 text-center reveal">
-                <img
-                    src="<?= !empty($profile['profile_image']) ? htmlspecialchars($profile['profile_image']) : 'assets/img/profile.jpg' ?>"
-                    alt="<?= htmlspecialchars($profile['name'] ?? '') ?>"
-                    class="profile-img"
-                >
+                <?php if (!empty($profile['profile_image'])): ?>
+                    <img src="<?= htmlspecialchars($profile['profile_image']) ?>"
+                         alt="<?= htmlspecialchars($profile['name']) ?>"
+                         class="profile-img">
+                <?php else: ?>
+                    <div class="profile-img d-flex align-items-center justify-content-center mx-auto"
+                         style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-size:4rem;font-weight:800;border-radius:30px;aspect-ratio:1/1;">
+                         <?php
+                         $initial = !empty($profile['name']) ? strtoupper(substr($profile['name'], 0, 1)) : 'I';
+                         echo htmlspecialchars($initial);
+                         ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -372,7 +380,7 @@ $category_icons = [
                 <div class="card-glass p-5 reveal">
                     <div class="card-accent"></div>
                     <div class="p-2">
-                        <form id="contactForm">
+                        <form id="contactForm" method="POST" action="/api/contact">
                             <div class="mb-3">
                                 <label class="form-label">Full Name</label>
                                 <input type="text" name="name" class="form-control" placeholder="Your name" required>
@@ -420,6 +428,6 @@ $category_icons = [
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="/assets/js/main.js"></script>
 </body>
 </html>

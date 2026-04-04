@@ -1,17 +1,21 @@
 <?php
 // admin/skills.php
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/auth.php';
+require_login();
+require_once __DIR__ . '/../../config/database.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
     supabase_insert('skills', [
         'skill_name'     => htmlspecialchars($_POST['skill_name']),
         'skill_category' => htmlspecialchars($_POST['skill_category'])
     ]);
-    header('Location: /admin/skills'); exit;
+    header('Location: /admin/skills');
+    exit;
 }
 if (isset($_GET['delete'])) {
     supabase_delete('skills', $_GET['delete']);
-    header('Location: /admin/skills'); exit;
+    header('Location: /admin/skills');
+    exit;
 }
 
 $skills = supabase_fetch('skills');
@@ -20,8 +24,7 @@ foreach ($skills as $s) {
     $grouped[$s['skill_category']][] = $s;
 }
 
-// Color palette per category — analogous color wheel approach
-// Each gets its own hue so categories are instantly distinguishable
+// Color palette per category
 $cat_palette = [
     'Programming & AI' => [
         'color'       => '#6366f1',  // Indigo
@@ -54,9 +57,9 @@ $cat_palette = [
         'icon'        => '✏️',
     ],
 ];
-
-// Fallback for any unconfigured category
 $fallback = ['color' => '#64748b', 'color_light' => 'rgba(100,116,139,0.1)', 'icon' => '💡'];
+
+include __DIR__ . '/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -78,7 +81,6 @@ $fallback = ['color' => '#64748b', 'color_light' => 'rgba(100,116,139,0.1)', 'ic
         $icon        = $palette['icon'];
     ?>
     <div class="col-md-6 col-xl-4">
-        <!-- Inject per-card CSS variables for color theming -->
         <div class="skill-cat-card h-100"
              style="--cat-color: <?= $color ?>; --cat-color-light: <?= $color_light ?>;">
 

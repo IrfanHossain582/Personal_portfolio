@@ -1,13 +1,18 @@
 <?php
 // admin/messages.php
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/auth.php';
+require_login();
+require_once __DIR__ . '/../../config/database.php';
 
 if (isset($_GET['delete'])) {
     supabase_delete('contact_messages', $_GET['delete']);
-    header('Location: /admin/messages'); exit;
+    header('Location: /admin/messages');
+    exit;
 }
 
 $messages = supabase_fetch('contact_messages');
+
+include __DIR__ . '/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">

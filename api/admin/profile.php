@@ -1,6 +1,8 @@
 <?php
 // admin/profile.php
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/auth.php';
+require_login();
+require_once __DIR__ . '/../../config/database.php';
 
 $profiles = supabase_fetch('profile');
 $profile = !empty($profiles) ? $profiles[0] : null;
@@ -9,6 +11,7 @@ $msg = '';
 $msg_type = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update') {
+    $profile_id = $profile['id'] ?? null;
     $data = [
         'name' => htmlspecialchars($_POST['name']),
         'title' => htmlspecialchars($_POST['title']),
@@ -21,54 +24,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
     // Profile Image Upload to Supabase Storage
     if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-        $file_tmp = $_FILES['profile_image']['tmp_name'];
         $ext = strtolower(pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION));
         $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
         if (in_array($ext, $allowed)) {
-            $filename = 'profile_' . time() . '.' . $ext;
-            $file_bytes = file_get_contents($file_tmp);
-            $mime = mime_content_type($file_tmp);
-
-            $supabase_url = getenv('SUPABASE_URL') ?: 'https://agrjfzzbykziwjdsonew.supabase.co';
-            $supabase_key = getenv('SUPABASE_SERVICE_KEY') ?: 'sb_publishable_oJOgqzGUqsDScHuxWGV3cw_PZNwP5SR'; // Fallback to anon if not set, but service_role is preferred
-            $bucket = 'avatars';
-
-            $ch = curl_init("$supabase_url/storage/v1/object/$bucket/$filename");
+            $filename   = 'profile_' . time() . '.' . $ext;
+            $file_bytes = file_get_contents($_FILES['profile_image']['tmp_name']);
+            $mime       = mime_content_type($_FILES['profile_image']['tmp_name']);
+            $supa_url   = rtrim(getenv('SUPABASE_URL'), '/');
+            if (!$supa_url) $supa_url = 'https://agrjfzzbykziwjdsonew.supabase.co';
+            $supa_key   = getenv('SUPABASE_SERVICE_KEY');
+            $bucket     = 'avatars';
+            $ch = curl_init("$supa_url/storage/v1/object/$bucket/$filename");
             curl_setopt_array($ch, [
-                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_CUSTOMREQUEST  => 'POST',
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HTTPHEADER => [
-                    "Authorization: Bearer $supabase_key",
+                CURLOPT_HTTPHEADER     => [
+                    "Authorization: Bearer $supa_key",
                     "Content-Type: $mime",
-                    "x-upsert: true"
+                    "x-upsert: true",
                 ],
                 CURLOPT_POSTFIELDS => $file_bytes,
             ]);
-            $res = curl_exec($ch);
-            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            if ($http_code === 200 || $http_code === 201) {
-                $public_url = "$supabase_url/storage/v1/object/public/$bucket/$filename";
+            $res  = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($code === 200 || $code === 201) {
+                $public_url = "$supa_url/storage/v1/object/public/$bucket/$filename";
                 $data['profile_image'] = $public_url;
-            } else {
-                $msg = "Supabase Upload Failed (HTTP $http_code): " . $res;
-                $msg_type = "danger";
             }
         }
     }
 
-    if ($profile) {
-        supabase_update('profile', $profile['id'], $data);
+    if ($profile_id) {
+        supabase_update('profile', $profile_id, $data);
     } else {
         supabase_insert('profile', $data);
     }
 
-    $profiles = supabase_fetch('profile');
-    $profile = !empty($profiles) ? $profiles[0] : null;
+    header('Location: /admin/profile?success=1');
+    exit;
+}
+
+if (isset($_GET['success'])) {
     $msg = 'Profile updated successfully!';
     $msg_type = 'success';
 }
+
+include __DIR__ . '/header.php';
 ?>
 
 <?php if ($msg): ?>

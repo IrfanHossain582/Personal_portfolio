@@ -1,6 +1,62 @@
 <?php
 // admin/dashboard.php
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/auth.php';
+require_login();
+require_once __DIR__ . '/../../config/database.php';
+
+$profiles = supabase_fetch('profile');
+$profile = !empty($profiles) ? $profiles[0] : [];
+$logo_url = $profile['logo_url'] ?? '';
+
+// Handle Logo Upload
+$logo_msg = '';
+$logo_msg_type = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'upload_logo') {
+    if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
+        $ext = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+        if (in_array($ext, $allowed)) {
+            $filename   = 'logo_' . time() . '.' . $ext;
+            $file_bytes = file_get_contents($_FILES['logo']['tmp_name']);
+            $mime       = mime_content_type($_FILES['logo']['tmp_name']);
+            $supa_url   = rtrim(getenv('SUPABASE_URL'), '/');
+            if (!$supa_url) $supa_url = 'https://agrjfzzbykziwjdsonew.supabase.co';
+            $supa_key   = getenv('SUPABASE_SERVICE_KEY'); // must be service_role key
+            $bucket     = 'logos';
+            $ch = curl_init("$supa_url/storage/v1/object/$bucket/$filename");
+            curl_setopt_array($ch, [
+                CURLOPT_CUSTOMREQUEST  => 'POST',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER     => [
+                    "Authorization: Bearer $supa_key",
+                    "Content-Type: $mime",
+                    "x-upsert: true",
+                ],
+                CURLOPT_POSTFIELDS => $file_bytes,
+            ]);
+            $res  = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($code === 200 || $code === 201) {
+                $public_url = "$supa_url/storage/v1/object/public/$bucket/$filename";
+                $profile_id = $profile['id'] ?? null;
+                if ($profile_id) {
+                    supabase_update('profile', $profile_id, ['logo_url' => $public_url]);
+                }
+                header('Location: /admin/dashboard?success=logo');
+                exit;
+            } else {
+                $logo_msg      = 'Upload failed: ' . $res;
+                $logo_msg_type = 'danger';
+            }
+        } else {
+            $logo_msg      = 'Invalid file type.';
+            $logo_msg_type = 'danger';
+        }
+    } else {
+        $logo_msg      = 'Please select a valid image file.';
+        $logo_msg_type = 'danger';
+    }
+}
 
 $skills = supabase_fetch('skills', 'id');
 $projects = supabase_fetch('projects', 'id');
@@ -14,75 +70,19 @@ $projects_count = count($projects);
 $messages_count = count($messages);
 $education_count = count($education);
 
-// Handle Logo Upload
-$logo_msg = '';
-$logo_msg_type = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'upload_logo') {
-    if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = '../../assets/img/';
-        if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
-
-        $ext = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
-        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
-
-        if (in_array($ext, $allowed)) {
-            $file_tmp = $_FILES['logo']['tmp_name'];
-            $filename = 'logo_' . time() . '.' . $ext;
-            $file_bytes = file_get_contents($file_tmp);
-            $mime = mime_content_type($file_tmp);
-
-            $supabase_url = getenv('SUPABASE_URL') ?: 'https://agrjfzzbykziwjdsonew.supabase.co';
-            $supabase_key = getenv('SUPABASE_SERVICE_KEY') ?: 'sb_publishable_oJOgqzGUqsDScHuxWGV3cw_PZNwP5SR';
-            $bucket = 'logos';
-
-            $ch = curl_init("$supabase_url/storage/v1/object/$bucket/$filename");
-            curl_setopt_array($ch, [
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HTTPHEADER => [
-                    "Authorization: Bearer $supabase_key",
-                    "Content-Type: $mime",
-                    "x-upsert: true"
-                ],
-                CURLOPT_POSTFIELDS => $file_bytes,
-            ]);
-            $res = curl_exec($ch);
-            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            if ($http_code === 200 || $http_code === 201) {
-                $public_url = "$supabase_url/storage/v1/object/public/$bucket/$filename";
-                $profiles = supabase_fetch('profile');
-                $profile_id = $profiles[0]['id'] ?? null;
-                if ($profile_id) {
-                    supabase_update('profile', $profile_id, ['logo_url' => $public_url]);
-                    // Refresh data
-                    $profiles = supabase_fetch('profile');
-                    $profile = !empty($profiles) ? $profiles[0] : [];
-                    $logo_url = $profile['logo_url'] ?? '';
-                    $logo_msg = '✅ Logo uploaded successfully!';
-                    $logo_msg_type = 'success';
-                }
-            } else {
-                $logo_msg = "Upload failed: " . $res;
-                $logo_msg_type = 'danger';
-            }
-        } else {
-            $logo_msg = 'Invalid file type. Allowed: JPG, PNG, SVG, WEBP.';
-            $logo_msg_type = 'danger';
-        }
-    } else {
-        $logo_msg = 'Please select a valid image file.';
-        $logo_msg_type = 'danger';
-    }
-}
-
-// Stats
 $stats = [
     ['label' => 'Projects', 'value' => $projects_count, 'icon' => '🚀', 'color' => 'indigo'],
     ['label' => 'Skills', 'value' => $skills_count, 'icon' => '⚡', 'color' => 'purple'],
     ['label' => 'Messages', 'value' => $messages_count, 'icon' => '✉️', 'color' => 'cyan'],
     ['label' => 'Education', 'value' => $education_count, 'icon' => '🎓', 'color' => 'green'],
 ];
+
+if (isset($_GET['success']) && $_GET['success'] === 'logo') {
+    $logo_msg = '✅ Logo uploaded successfully!';
+    $logo_msg_type = 'success';
+}
+
+include __DIR__ . '/header.php';
 ?>
 
 <!-- ===== STATS ROW ===== -->
@@ -111,18 +111,15 @@ $stats = [
                 <div class="alert-admin alert-<?= $logo_msg_type ?>"><?= htmlspecialchars($logo_msg) ?></div>
                 <?php endif; ?>
 
-                <!-- Current Logo Preview -->
                 <div class="text-center mb-4">
                     <?php if (!empty($logo_url)): ?>
-                    <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 18px; overflow: hidden; background: #f8fafc; border: 2px solid #e2e8f0;">
-                        <img src="<?= htmlspecialchars($logo_url) ?>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                    </div>
-                    <p style="font-size: 0.78rem; color: #64748b;">Current logo</p>
+                        <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 18px; overflow: hidden; background: #f8fafc; border: 2px solid #e2e8f0;">
+                            <img src="<?= htmlspecialchars($logo_url) ?>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </div>
                     <?php else: ?>
-                    <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 18px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; font-size: 2rem; font-weight: 800;">
-                        <?= $initials ?>
-                    </div>
-                    <p style="font-size: 0.78rem; color: #64748b;">No logo set yet</p>
+                        <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 18px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; font-size: 2rem; font-weight: 800;">
+                            <?= $initials ?>
+                        </div>
                     <?php endif; ?>
                 </div>
 
@@ -151,16 +148,16 @@ $stats = [
             </div>
             <div class="admin-card-body">
                 <div class="d-flex flex-column gap-3">
-                    <a href="profile.php" class="btn-admin-outline w-100" style="justify-content: flex-start;">
+                    <a href="/admin/profile" class="btn-admin-outline w-100" style="justify-content: flex-start;">
                         👤 &nbsp; Edit Profile & Bio
                     </a>
-                    <a href="skills.php" class="btn-admin-outline w-100" style="justify-content: flex-start;">
+                    <a href="/admin/skills" class="btn-admin-outline w-100" style="justify-content: flex-start;">
                         ⚡ &nbsp; Manage Skills
                     </a>
-                    <a href="projects.php" class="btn-admin-outline w-100" style="justify-content: flex-start;">
+                    <a href="/admin/projects" class="btn-admin-outline w-100" style="justify-content: flex-start;">
                         🚀 &nbsp; Add Project
                     </a>
-                    <a href="messages.php" class="btn-admin-outline w-100" style="justify-content: flex-start;">
+                    <a href="/admin/messages" class="btn-admin-outline w-100" style="justify-content: flex-start;">
                         ✉️ &nbsp; View Messages
                     </a>
                     <a href="/" target="_blank" class="btn-admin-outline w-100" style="justify-content: flex-start;">
@@ -176,11 +173,11 @@ $stats = [
         <div class="admin-card h-100">
             <div class="admin-card-header">
                 <h2 class="admin-card-title">✉️ Recent Messages</h2>
-                <a href="messages.php" class="btn-admin-outline" style="padding: 6px 14px; font-size: 0.78rem;">View All</a>
+                <a href="/admin/messages" class="btn-admin-outline" style="padding: 6px 14px; font-size: 0.78rem;">View All</a>
             </div>
             <?php
             $recent_msgs = supabase_fetch('contact_messages');
-            $recent_msgs = array_slice($recent_msgs, 0, 5);
+            $recent_msgs = array_slice($recent_msgs ?? [], 0, 5);
             ?>
             <?php if (empty($recent_msgs)): ?>
             <div class="admin-card-body text-center" style="color: #94a3b8; padding: 40px;">

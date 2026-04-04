@@ -1,6 +1,8 @@
 <?php
 // admin/achievements.php
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/auth.php';
+require_login();
+require_once __DIR__ . '/../../config/database.php';
 
 // Add new achievement
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
@@ -21,6 +23,8 @@ if (isset($_GET['delete'])) {
 }
 
 $achievements = supabase_fetch('achievements');
+
+include __DIR__ . '/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Manage Achievements</h2>

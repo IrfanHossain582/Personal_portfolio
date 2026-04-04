@@ -1,22 +1,28 @@
 <?php
 // admin/projects.php
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/auth.php';
+require_login();
+require_once __DIR__ . '/../../config/database.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
     supabase_insert('projects', [
         'project_name'    => htmlspecialchars($_POST['project_name']),
         'technology_used' => htmlspecialchars($_POST['technology_used']),
         'description'     => htmlspecialchars($_POST['description']),
         'live_demo_link'  => htmlspecialchars($_POST['live_demo_link'])
     ]);
-    header('Location: /admin/projects'); exit;
+    header('Location: /admin/projects');
+    exit;
 }
 if (isset($_GET['delete'])) {
     supabase_delete('projects', $_GET['delete']);
-    header('Location: /admin/projects'); exit;
+    header('Location: /admin/projects');
+    exit;
 }
 
 $projects = supabase_fetch('projects');
+
+include __DIR__ . '/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
