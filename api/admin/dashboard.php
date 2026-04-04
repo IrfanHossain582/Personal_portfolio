@@ -1,6 +1,6 @@
 <?php
 // admin/dashboard.php
-include 'header.php';
+include __DIR__ . '/header.php';
 
 $skills = supabase_fetch('skills', 'id');
 $projects = supabase_fetch('projects', 'id');
@@ -226,4 +226,4 @@ $stats = [
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

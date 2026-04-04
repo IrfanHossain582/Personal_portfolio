@@ -1,6 +1,6 @@
 <?php
 // admin/profile.php
-include 'header.php';
+include __DIR__ . '/header.php';
 
 $profiles = supabase_fetch('profile');
 $profile = !empty($profiles) ? $profiles[0] : null;
@@ -157,4 +157,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     </div>
 </form>
 
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

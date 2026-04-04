@@ -1,6 +1,6 @@
 <?php
 // index.php
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $profiles = supabase_fetch('profile');
 $profile = !empty($profiles) ? $profiles[0] : [

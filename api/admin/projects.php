@@ -1,6 +1,6 @@
 <?php
 // admin/projects.php
-include 'header.php';
+include __DIR__ . '/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
     supabase_insert('projects', [
@@ -97,4 +97,4 @@ $projects = supabase_fetch('projects');
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

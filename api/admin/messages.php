@@ -1,6 +1,6 @@
 <?php
 // admin/messages.php
-include 'header.php';
+include __DIR__ . '/header.php';
 
 if (isset($_GET['delete'])) {
     supabase_delete('contact_messages', $_GET['delete']);
@@ -54,4 +54,4 @@ $messages = supabase_fetch('contact_messages');
     <?php endif; ?>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

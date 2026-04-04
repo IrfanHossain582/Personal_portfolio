@@ -1,6 +1,6 @@
 <?php
 // admin/skills.php
-include 'header.php';
+include __DIR__ . '/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
     supabase_insert('skills', [
@@ -144,4 +144,4 @@ $fallback = ['color' => '#64748b', 'color_light' => 'rgba(100,116,139,0.1)', 'ic
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

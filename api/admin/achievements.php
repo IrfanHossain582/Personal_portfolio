@@ -1,6 +1,6 @@
 <?php
 // admin/achievements.php
-include 'header.php';
+include __DIR__ . '/header.php';
 
 // Add new achievement
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
@@ -79,4 +79,4 @@ $achievements = supabase_fetch('achievements');
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>
