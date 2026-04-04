@@ -80,10 +80,8 @@ $category_icons = [
 <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-            <?php if (!empty($profile['logo_url'])): 
-                $logo_src = (strpos($profile['logo_url'], 'http') === 0) ? $profile['logo_url'] : '/' . $profile['logo_url'];
-            ?>
-                <img src="<?= htmlspecialchars($logo_src) ?>" alt="Logo" style="height: 32px; width: auto; object-fit: contain;">
+            <?php if (!empty($profile['logo_url'])): ?>
+                <img src="<?= htmlspecialchars($profile['logo_url']) ?>" alt="Logo" style="height: 32px; width: auto; object-fit: contain;">
             <?php else: ?>
                 <?= htmlspecialchars(explode(' ', $profile['name'])[0]) ?>.
             <?php endif; ?>
@@ -147,12 +145,8 @@ $category_icons = [
                 </div>
             </div>
             <div class="col-lg-5 text-center reveal">
-                <?php 
-                    $profile_raw = !empty($profile['profile_image']) ? $profile['profile_image'] : 'assets/img/profile.jpg';
-                    $profile_src = (strpos($profile_raw, 'http') === 0) ? $profile_raw : '/' . $profile_raw;
-                ?>
                 <img
-                    src="<?= htmlspecialchars($profile_src) ?>"
+                    src="<?= !empty($profile['profile_image']) ? htmlspecialchars($profile['profile_image']) : 'assets/img/profile.jpg' ?>"
                     alt="<?= htmlspecialchars($profile['name'] ?? '') ?>"
                     class="profile-img"
                 >

@@ -115,10 +115,7 @@ $stats = [
                 <div class="text-center mb-4">
                     <?php if (!empty($logo_url)): ?>
                     <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 18px; overflow: hidden; background: #f8fafc; border: 2px solid #e2e8f0;">
-                        <?php 
-                            $display_logo = (strpos($logo_url, 'http') === 0) ? $logo_url : '/' . $logo_url;
-                        ?>
-                        <img src="<?= htmlspecialchars($display_logo) ?>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        <img src="<?= htmlspecialchars($logo_url) ?>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                     </div>
                     <p style="font-size: 0.78rem; color: #64748b;">Current logo</p>
                     <?php else: ?>

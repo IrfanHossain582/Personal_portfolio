@@ -87,12 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 </div>
                 <div class="admin-card-body text-center">
                     <?php if (!empty($profile['profile_image'])): ?>
-                    <?php 
-                        $img_src = $profile['profile_image'] ?? '';
-                        // If it's a Supabase URL, use it directly. Otherwise, use relative / root prefix.
-                        $display_src = (strpos($img_src, 'http') === 0) ? $img_src : '/' . $img_src;
-                    ?>
-                    <img src="<?= htmlspecialchars($display_src) ?>" alt="Profile"
+                    <img src="<?= htmlspecialchars($profile['profile_image']) ?>" alt="Profile"
                          style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0; margin-bottom: 16px;">
                     <?php else: ?>
                     <div style="width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; font-size: 2.5rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
