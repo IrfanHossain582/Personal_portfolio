@@ -11,14 +11,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         'cgpa' => htmlspecialchars($_POST['cgpa'])
     ];
     supabase_insert('education', $data);
-    header("Location: education.php");
+    header("Location: /admin/education");
     exit;
 }
 
 // Delete education
 if (isset($_GET['delete'])) {
     supabase_delete('education', $_GET['delete']);
-    header("Location: education.php");
+    header("Location: /admin/education");
     exit;
 }
 
@@ -49,7 +49,7 @@ $education = supabase_fetch('education');
                     <td><?= htmlspecialchars($edu['end_year']) ?></td>
                     <td><?= htmlspecialchars($edu['cgpa']) ?></td>
                     <td>
-                        <a href="?delete=<?= $edu['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this record?');">Delete</a>
+                        <a href="/admin/education?delete=<?= $edu['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this record?');">Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

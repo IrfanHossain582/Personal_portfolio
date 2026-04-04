@@ -9,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         'description' => htmlspecialchars($_POST['description'])
     ];
     supabase_insert('experience', $data);
-    header("Location: experience.php");
+    header("Location: /admin/experience");
     exit;
 }
 
 // Delete experience
 if (isset($_GET['delete'])) {
     supabase_delete('experience', $_GET['delete']);
-    header("Location: experience.php");
+    header("Location: /admin/experience");
     exit;
 }
 
@@ -43,7 +43,7 @@ $experience = supabase_fetch('experience');
                     <td class="fw-bold"><?= htmlspecialchars($exp['company_name']) ?></td>
                     <td><?= htmlspecialchars($exp['description']) ?></td>
                     <td>
-                        <a href="?delete=<?= $exp['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this record?');">Delete</a>
+                        <a href="/admin/experience?delete=<?= $exp['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this record?');">Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

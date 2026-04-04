@@ -7,11 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
         'skill_name'     => htmlspecialchars($_POST['skill_name']),
         'skill_category' => htmlspecialchars($_POST['skill_category'])
     ]);
-    header('Location: skills.php'); exit;
+    header('Location: /admin/skills'); exit;
 }
 if (isset($_GET['delete'])) {
     supabase_delete('skills', $_GET['delete']);
-    header('Location: skills.php'); exit;
+    header('Location: /admin/skills'); exit;
 }
 
 $skills = supabase_fetch('skills');

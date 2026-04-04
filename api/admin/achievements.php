@@ -9,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         'description' => htmlspecialchars($_POST['description'])
     ];
     supabase_insert('achievements', $data);
-    header("Location: achievements.php");
+    header("Location: /admin/achievements");
     exit;
 }
 
 // Delete achievement
 if (isset($_GET['delete'])) {
     supabase_delete('achievements', $_GET['delete']);
-    header("Location: achievements.php");
+    header("Location: /admin/achievements");
     exit;
 }
 
@@ -43,7 +43,7 @@ $achievements = supabase_fetch('achievements');
                     <td class="fw-bold"><?= htmlspecialchars($ach['title']) ?></td>
                     <td><?= htmlspecialchars($ach['description']) ?></td>
                     <td>
-                        <a href="?delete=<?= $ach['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this record?');">Delete</a>
+                        <a href="/admin/achievements?delete=<?= $ach['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this record?');">Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

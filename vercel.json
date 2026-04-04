@@ -5,14 +5,49 @@
     }
   },
   "routes": [
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-
-    { "src": "/login", "dest": "/api/admin/login.php" },
-    { "src": "/admin/logout", "dest": "/api/admin/logout.php" },
-    { "src": "/admin/dashboard", "dest": "/api/admin/dashboard.php" },
-    { "src": "/admin", "dest": "/api/admin/login.php" },
-    { "src": "/admin/(.*)", "dest": "/api/admin/$1.php" },
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/api/index.php" }
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/admin/login.php",
+      "dest": "/api/admin/login.php"
+    },
+    {
+      "src": "/admin/dashboard.php",
+      "dest": "/api/admin/dashboard.php"
+    },
+    {
+      "src": "/admin/logout.php",
+      "dest": "/api/admin/logout.php"
+    },
+    {
+      "src": "/login",
+      "dest": "/api/admin/login.php"
+    },
+    {
+      "src": "/admin/logout",
+      "dest": "/api/admin/logout.php"
+    },
+    {
+      "src": "/admin/dashboard",
+      "dest": "/api/admin/dashboard.php"
+    },
+    {
+      "src": "/admin",
+      "dest": "/api/admin/login.php"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/api/admin/$1.php"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
+    }
   ]
 }

@@ -9,11 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add') {
         'description'     => htmlspecialchars($_POST['description']),
         'live_demo_link'  => htmlspecialchars($_POST['live_demo_link'])
     ]);
-    header('Location: projects.php'); exit;
+    header('Location: /admin/projects'); exit;
 }
 if (isset($_GET['delete'])) {
     supabase_delete('projects', $_GET['delete']);
-    header('Location: projects.php'); exit;
+    header('Location: /admin/projects'); exit;
 }
 
 $projects = supabase_fetch('projects');

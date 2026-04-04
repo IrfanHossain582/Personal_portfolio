@@ -4,7 +4,7 @@ include __DIR__ . '/header.php';
 
 if (isset($_GET['delete'])) {
     supabase_delete('contact_messages', $_GET['delete']);
-    header('Location: messages.php'); exit;
+    header('Location: /admin/messages'); exit;
 }
 
 $messages = supabase_fetch('contact_messages');
