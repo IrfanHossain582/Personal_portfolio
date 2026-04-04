@@ -4,10 +4,8 @@ require_once __DIR__ . '/auth.php';
 require_login();
 require_once __DIR__ . '/../../config/database.php';
 
-// Get current page for active state
 $current_page = basename($_SERVER['PHP_SELF']);
 
-// Get profile for sidebar branding and logo
 $profiles = supabase_fetch('profile');
 $profile = !empty($profiles) ? $profiles[0] : [];
 $name = $profile['name'] ?? 'Admin';
@@ -16,17 +14,16 @@ $initials = strtoupper(substr($name, 0, 1));
 $logo_url = $profile['logo_url'] ?? '';
 
 $nav_items = [
-    ['file' => 'dashboard.php', 'icon' => '📊', 'label' => 'Dashboard'],
-    ['file' => 'profile.php',   'icon' => '👤', 'label' => 'Profile'],
-    ['file' => 'skills.php',    'icon' => '⚡', 'label' => 'Skills'],
-    ['file' => 'projects.php',  'icon' => '🚀', 'label' => 'Projects'],
-    ['file' => 'education.php', 'icon' => '🎓', 'label' => 'Education'],
-    ['file' => 'experience.php','icon' => '💼', 'label' => 'Experience'],
-    ['file' => 'achievements.php','icon' => '🏆', 'label' => 'Achievements'],
-    ['file' => 'messages.php',  'icon' => '✉️', 'label' => 'Messages'],
+    ['href' => '/admin/dashboard',    'icon' => '📊', 'label' => 'Dashboard',    'file' => 'dashboard.php'],
+    ['href' => '/admin/profile',      'icon' => '👤', 'label' => 'Profile',      'file' => 'profile.php'],
+    ['href' => '/admin/skills',       'icon' => '⚡', 'label' => 'Skills',       'file' => 'skills.php'],
+    ['href' => '/admin/projects',     'icon' => '🚀', 'label' => 'Projects',     'file' => 'projects.php'],
+    ['href' => '/admin/education',    'icon' => '🎓', 'label' => 'Education',    'file' => 'education.php'],
+    ['href' => '/admin/experience',   'icon' => '💼', 'label' => 'Experience',   'file' => 'experience.php'],
+    ['href' => '/admin/achievements', 'icon' => '🏆', 'label' => 'Achievements', 'file' => 'achievements.php'],
+    ['href' => '/admin/messages',     'icon' => '✉️', 'label' => 'Messages',     'file' => 'messages.php'],
 ];
 
-// Page title map
 $page_titles = [
     'dashboard.php'    => 'Dashboard',
     'profile.php'      => 'Manage Profile',
@@ -48,19 +45,21 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="admin.css">
+
+    <!-- Root-absolute path to admin.css -->
+    <link rel="stylesheet" href="/assets/css/admin.css">
 </head>
 <body>
 <div class="admin-wrapper">
 
-    <!-- ===== SIDEBAR ===== -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
 
         <!-- Brand -->
-        <a href="dashboard.php" class="sidebar-brand">
+        <a href="/admin/dashboard" class="sidebar-brand">
             <div class="brand-logo-wrapper">
                 <?php if (!empty($logo_url)): ?>
-                    <img src="../../<?= htmlspecialchars($logo_url) ?>" alt="Logo">
+                    <img src="/<?= htmlspecialchars($logo_url) ?>" alt="Logo">
                 <?php else: ?>
                     <?= $initials ?>
                 <?php endif; ?>
@@ -75,7 +74,8 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
         <nav class="sidebar-nav">
             <div class="nav-section-label">Main Navigation</div>
             <?php foreach ($nav_items as $item): ?>
-            <a href="<?= $item['file'] ?>" class="sidebar-link <?= $current_page === $item['file'] ? 'active' : '' ?>">
+            <a href="<?= $item['href'] ?>" 
+               class="sidebar-link <?= $current_page === $item['file'] ? 'active' : '' ?>">
                 <span class="nav-icon"><?= $item['icon'] ?></span>
                 <?= htmlspecialchars($item['label']) ?>
             </a>
@@ -88,16 +88,15 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
                 <span class="nav-icon">🌐</span>
                 View Site
             </a>
-            <a href="logout.php" class="sidebar-link" style="color: #f87171;">
+            <a href="/admin/logout" class="sidebar-link" style="color: #f87171;">
                 <span class="nav-icon">🚪</span>
                 Logout
             </a>
         </div>
     </aside>
 
-    <!-- ===== MAIN CONTENT ===== -->
+    <!-- MAIN CONTENT -->
     <main class="main-content">
-        <!-- Top Header -->
         <header class="content-header">
             <div>
                 <h1 class="page-title"><?= htmlspecialchars($page_title) ?></h1>
@@ -106,7 +105,9 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
                 <span class="header-badge">Admin Panel</span>
                 <div class="admin-avatar" title="<?= htmlspecialchars($name) ?>">
                     <?php if (!empty($profile['profile_image'])): ?>
-                        <img src="../../<?= htmlspecialchars($profile['profile_image']) ?>" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        <img src="/<?= htmlspecialchars($profile['profile_image']) ?>" 
+                             alt="Avatar" 
+                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     <?php else: ?>
                         <?= $initials ?>
                     <?php endif; ?>
@@ -114,5 +115,4 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
             </div>
         </header>
 
-        <!-- Page Body -->
         <div class="content-body">

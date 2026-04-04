@@ -6,7 +6,7 @@
   },
   "routes": [
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/admin/admin.css", "dest": "/api/admin/admin.css" },
+
     { "src": "/login", "dest": "/api/admin/login.php" },
     { "src": "/admin/logout", "dest": "/api/admin/logout.php" },
     { "src": "/admin/dashboard", "dest": "/api/admin/dashboard.php" },
