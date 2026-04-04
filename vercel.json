@@ -6,21 +6,10 @@
     }
   },
   "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/admin/(.*)",
-      "dest": "/api/admin/$1"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.php"
-    }
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/admin", "dest": "/api/admin/login.php" },
+    { "src": "/admin/(.*)", "dest": "/api/admin/$1" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/api/index.php" }
   ]
 }
