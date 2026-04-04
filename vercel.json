@@ -1,7 +1,8 @@
 {
   "functions": {
     "**/*.php": {
-      "runtime": "vercel-php@0.9.0"
+      "runtime": "vercel-php@0.6.0",
+      "includeFiles": "config/**, admin/**, assets/**, api/**"
     }
   },
   "routes": [
