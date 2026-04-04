@@ -1,6 +1,6 @@
 <?php
 // admin/auth.php
-define('AUTH_SECRET_KEY', 'portfolio_secure_key_2026_irfan'); // In production, move to ENV
+define('AUTH_SECRET_KEY', getenv('AUTH_SECRET_KEY') ?: 'portfolio_secure_key_2026_irfan');
 
 function get_auth_token() {
     return hash_hmac('sha256', 'admin_logged_in', AUTH_SECRET_KEY);

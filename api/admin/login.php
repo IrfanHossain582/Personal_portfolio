@@ -13,8 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Credentials - IRL move to Database/Env
-    if ($username === 'Irfan' && $password === 'Na@sif011202015') {
+    // Use environment variables if set, otherwise fallback to original
+    $admin_user = getenv('ADMIN_USER') ?: 'Irfan';
+    $admin_pass = getenv('ADMIN_PASS') ?: 'Na@sif011202015';
+
+    if ($username === $admin_user && $password === $admin_pass) {
         $token = get_auth_token();
         setcookie('admin_token', $token, [
             'expires'  => time() + 86400, // 24 hours
