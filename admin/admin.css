@@ -765,3 +765,50 @@ textarea.form-control-admin { resize: vertical; min-height: 100px; }
   text-decoration: none;
 }
 
+/* =========================================
+   SUMMARY SECTION
+   ========================================= */
+.summary-item {
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.summary-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(99,102,241,0.08);
+  border-color: var(--brand-primary);
+}
+
+.summary-icon {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.summary-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.summary-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+

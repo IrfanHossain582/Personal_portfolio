@@ -213,10 +213,10 @@ $stats = [
                     foreach ($summary as $s):
                     ?>
                     <div class="col-6 col-md-4 col-lg-2">
-                        <div style="padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
-                            <div style="font-size: 1.4rem; margin-bottom: 6px;"><?= $s[0] ?></div>
-                            <div style="font-size: 1.4rem; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;"><?= $s[1] ?></div>
-                            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;"><?= $s[2] ?></div>
+                        <div class="summary-item">
+                            <div class="summary-icon"><?= $s[0] ?></div>
+                            <div class="summary-value"><?= $s[1] ?></div>
+                            <div class="summary-label"><?= $s[2] ?></div>
                         </div>
                     </div>
                     <?php endforeach; ?>

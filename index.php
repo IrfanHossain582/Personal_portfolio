@@ -79,7 +79,13 @@ $category_icons = [
 <!-- ========== NAVIGATION ========== -->
 <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#"><?= htmlspecialchars(explode(' ', $profile['name'])[0]) ?>.</a>
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            <?php if (!empty($profile['logo_url'])): ?>
+                <img src="<?= htmlspecialchars($profile['logo_url']) ?>" alt="Logo" style="height: 32px; width: auto; object-fit: contain;">
+            <?php else: ?>
+                <?= htmlspecialchars(explode(' ', $profile['name'])[0]) ?>.
+            <?php endif; ?>
+        </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

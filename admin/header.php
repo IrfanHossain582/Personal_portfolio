@@ -104,7 +104,13 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
             </div>
             <div class="header-actions">
                 <span class="header-badge">Admin Panel</span>
-                <div class="admin-avatar" title="<?= htmlspecialchars($name) ?>"><?= $initials ?></div>
+                <div class="admin-avatar" title="<?= htmlspecialchars($name) ?>">
+                    <?php if (!empty($profile['profile_image'])): ?>
+                        <img src="../<?= htmlspecialchars($profile['profile_image']) ?>" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    <?php else: ?>
+                        <?= $initials ?>
+                    <?php endif; ?>
+                </div>
             </div>
         </header>
 
