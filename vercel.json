@@ -1,16 +1,17 @@
 {
   "functions": {
     "api/**/*.php": {
-      "runtime": "vercel-php@0.9.0",
-      "includeFiles": "config/**, assets/**"
+      "runtime": "vercel-php@0.9.0"
     }
   },
   "routes": [
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/admin/admin.css", "dest": "/api/admin/admin.css" },
     { "src": "/login", "dest": "/api/admin/login.php" },
+    { "src": "/admin/logout", "dest": "/api/admin/logout.php" },
     { "src": "/admin/dashboard", "dest": "/api/admin/dashboard.php" },
-    { "src": "/admin/(.*)", "dest": "/api/admin/$1" },
     { "src": "/admin", "dest": "/api/admin/login.php" },
+    { "src": "/admin/(.*)", "dest": "/api/admin/$1.php" },
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)", "dest": "/api/index.php" }
   ]
