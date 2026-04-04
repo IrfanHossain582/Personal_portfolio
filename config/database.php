@@ -17,7 +17,7 @@ function supabase_fetch($table_name, $select = '*') {
     
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+
     
     if ($httpCode >= 200 && $httpCode < 300) {
         return json_decode($response, true);
@@ -42,7 +42,7 @@ function supabase_insert($table_name, $data) {
     
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+
     
     if ($httpCode >= 200 && $httpCode < 300) {
         return json_decode($response, true);
@@ -67,7 +67,7 @@ function supabase_update($table_name, $id, $data) {
     
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+
     
     if ($httpCode >= 200 && $httpCode < 300) {
         return true;
@@ -89,7 +89,7 @@ function supabase_delete($table_name, $id) {
     
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+
     
     if ($httpCode >= 200 && $httpCode < 300) {
         return true;

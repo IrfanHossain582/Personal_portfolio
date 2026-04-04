@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'Content-Type: application/json'
     ]);
     curl_exec($webhook_ch);
-    curl_close($webhook_ch);
+
 
     $result = supabase_insert('contact_messages', $data);
 
