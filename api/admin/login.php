@@ -4,7 +4,7 @@ ini_set('session.save_path', '/tmp');
 session_start();
 
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
-    header('Location: dashboard.php');
+    header('Location: /admin/dashboard');
     exit;
 }
 
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($username === 'Irfan' && $password === 'Na@sif011202015') {
         $_SESSION['admin_logged_in'] = true;
-        header('Location: dashboard.php');
+        header('Location: /admin/dashboard');
         exit;
     } else {
         $error = 'Invalid username or password.';
