@@ -19,16 +19,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         'portfolio_url' => htmlspecialchars($_POST['portfolio_url'])
     ];
 
-    // Profile Image Upload
+    // Profile Image Upload to Supabase Storage
     if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = '../../assets/img/';
-        if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+        $file_tmp = $_FILES['profile_image']['tmp_name'];
         $ext = strtolower(pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION));
         $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+
         if (in_array($ext, $allowed)) {
             $filename = 'profile_' . time() . '.' . $ext;
-            if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $upload_dir . $filename)) {
-                $data['profile_image'] = 'assets/img/' . $filename;
+            $file_bytes = file_get_contents($file_tmp);
+            $mime = mime_content_type($file_tmp);
+
+            $supabase_url = getenv('SUPABASE_URL') ?: 'https://agrjfzzbykziwjdsonew.supabase.co';
+            $supabase_key = getenv('SUPABASE_SERVICE_KEY') ?: 'sb_publishable_oJOgqzGUqsDScHuxWGV3cw_PZNwP5SR'; // Fallback to anon if not set, but service_role is preferred
+            $bucket = 'avatars';
+
+            $ch = curl_init("$supabase_url/storage/v1/object/$bucket/$filename");
+            curl_setopt_array($ch, [
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => [
+                    "Authorization: Bearer $supabase_key",
+                    "Content-Type: $mime",
+                    "x-upsert: true"
+                ],
+                CURLOPT_POSTFIELDS => $file_bytes,
+            ]);
+            $res = curl_exec($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            if ($http_code === 200 || $http_code === 201) {
+                $public_url = "$supabase_url/storage/v1/object/public/$bucket/$filename";
+                $data['profile_image'] = $public_url;
+            } else {
+                $msg = "Supabase Upload Failed (HTTP $http_code): " . $res;
+                $msg_type = "danger";
             }
         }
     }
@@ -62,7 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 </div>
                 <div class="admin-card-body text-center">
                     <?php if (!empty($profile['profile_image'])): ?>
-                    <img src="/<?= htmlspecialchars($profile['profile_image']) ?>" alt="Profile"
+                    <?php 
+                        $img_src = $profile['profile_image'] ?? '';
+                        // If it's a Supabase URL, use it directly. Otherwise, use relative / root prefix.
+                        $display_src = (strpos($img_src, 'http') === 0) ? $img_src : '/' . $img_src;
+                    ?>
+                    <img src="<?= htmlspecialchars($display_src) ?>" alt="Profile"
                          style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0; margin-bottom: 16px;">
                     <?php else: ?>
                     <div style="width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; font-size: 2.5rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">

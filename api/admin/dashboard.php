@@ -26,13 +26,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
 
         if (in_array($ext, $allowed)) {
+            $file_tmp = $_FILES['logo']['tmp_name'];
             $filename = 'logo_' . time() . '.' . $ext;
-            if (move_uploaded_file($_FILES['logo']['tmp_name'], $upload_dir . $filename)) {
+            $file_bytes = file_get_contents($file_tmp);
+            $mime = mime_content_type($file_tmp);
+
+            $supabase_url = getenv('SUPABASE_URL') ?: 'https://agrjfzzbykziwjdsonew.supabase.co';
+            $supabase_key = getenv('SUPABASE_SERVICE_KEY') ?: 'sb_publishable_oJOgqzGUqsDScHuxWGV3cw_PZNwP5SR';
+            $bucket = 'logos';
+
+            $ch = curl_init("$supabase_url/storage/v1/object/$bucket/$filename");
+            curl_setopt_array($ch, [
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => [
+                    "Authorization: Bearer $supabase_key",
+                    "Content-Type: $mime",
+                    "x-upsert: true"
+                ],
+                CURLOPT_POSTFIELDS => $file_bytes,
+            ]);
+            $res = curl_exec($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            if ($http_code === 200 || $http_code === 201) {
+                $public_url = "$supabase_url/storage/v1/object/public/$bucket/$filename";
                 $profiles = supabase_fetch('profile');
                 $profile_id = $profiles[0]['id'] ?? null;
                 if ($profile_id) {
-                    supabase_update('profile', $profile_id, ['logo_url' => 'assets/img/' . $filename]);
-                    // Re-fetch profile after update
+                    supabase_update('profile', $profile_id, ['logo_url' => $public_url]);
+                    // Refresh data
                     $profiles = supabase_fetch('profile');
                     $profile = !empty($profiles) ? $profiles[0] : [];
                     $logo_url = $profile['logo_url'] ?? '';
@@ -40,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     $logo_msg_type = 'success';
                 }
             } else {
-                $logo_msg = 'Failed to move uploaded file.';
+                $logo_msg = "Upload failed: " . $res;
                 $logo_msg_type = 'danger';
             }
         } else {
@@ -92,7 +115,10 @@ $stats = [
                 <div class="text-center mb-4">
                     <?php if (!empty($logo_url)): ?>
                     <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 18px; overflow: hidden; background: #f8fafc; border: 2px solid #e2e8f0;">
-                        <img src="../../<?= htmlspecialchars($logo_url) ?>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        <?php 
+                            $display_logo = (strpos($logo_url, 'http') === 0) ? $logo_url : '/' . $logo_url;
+                        ?>
+                        <img src="<?= htmlspecialchars($display_logo) ?>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                     </div>
                     <p style="font-size: 0.78rem; color: #64748b;">Current logo</p>
                     <?php else: ?>

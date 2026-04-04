@@ -11,7 +11,8 @@ $profile = !empty($profiles) ? $profiles[0] : [];
 $name = $profile['name'] ?? 'Admin';
 $first_name = explode(' ', $name)[0];
 $initials = strtoupper(substr($name, 0, 1));
-$logo_url = $profile['logo_url'] ?? '';
+$logo_raw = $profile['logo_url'] ?? '';
+$logo_url = (strpos($logo_raw, 'http') === 0) ? $logo_raw : '/' . $logo_raw;
 
 $nav_items = [
     ['href' => '/admin/dashboard',    'icon' => '📊', 'label' => 'Dashboard',    'file' => 'dashboard.php'],
@@ -58,8 +59,8 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
         <!-- Brand -->
         <a href="/admin/dashboard" class="sidebar-brand">
             <div class="brand-logo-wrapper">
-                <?php if (!empty($logo_url)): ?>
-                    <img src="/<?= htmlspecialchars($logo_url) ?>" alt="Logo">
+                <?php if (!empty($profile['logo_url'])): ?>
+                    <img src="<?= htmlspecialchars($logo_url) ?>" alt="Logo">
                 <?php else: ?>
                     <?= $initials ?>
                 <?php endif; ?>
@@ -104,8 +105,11 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
             <div class="header-actions">
                 <span class="header-badge">Admin Panel</span>
                 <div class="admin-avatar" title="<?= htmlspecialchars($name) ?>">
-                    <?php if (!empty($profile['profile_image'])): ?>
-                        <img src="/<?= htmlspecialchars($profile['profile_image']) ?>" 
+                    <?php if (!empty($profile['profile_image'])): 
+                        $avatar_raw = $profile['profile_image'];
+                        $avatar_url = (strpos($avatar_raw, 'http') === 0) ? $avatar_raw : '/' . $avatar_raw;
+                    ?>
+                        <img src="<?= htmlspecialchars($avatar_url) ?>" 
                              alt="Avatar" 
                              style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     <?php else: ?>
