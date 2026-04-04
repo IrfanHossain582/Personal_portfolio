@@ -1,8 +1,8 @@
 {
   "functions": {
-    "**/*.php": {
+    "api/**/*.php": {
       "runtime": "vercel-php@0.6.0",
-      "includeFiles": "config/**, admin/**, assets/**, api/**"
+      "includeFiles": "config/**, assets/**"
     }
   },
   "routes": [
@@ -11,16 +11,16 @@
       "dest": "/assets/$1"
     },
     {
+      "src": "/admin/(.*)",
+      "dest": "/api/admin/$1"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
     {
-      "src": "/admin/(.*)",
-      "dest": "/admin/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.php"
+      "dest": "/api/index.php"
     }
   ]
 }

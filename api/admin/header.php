@@ -2,7 +2,7 @@
 // admin/header.php
 require_once 'auth.php';
 require_login();
-require_once '../config/database.php';
+require_once '../../config/database.php';
 
 // Get current page for active state
 $current_page = basename($_SERVER['PHP_SELF']);
@@ -60,7 +60,7 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
         <a href="dashboard.php" class="sidebar-brand">
             <div class="brand-logo-wrapper">
                 <?php if (!empty($logo_url)): ?>
-                    <img src="../<?= htmlspecialchars($logo_url) ?>" alt="Logo">
+                    <img src="../../<?= htmlspecialchars($logo_url) ?>" alt="Logo">
                 <?php else: ?>
                     <?= $initials ?>
                 <?php endif; ?>
@@ -84,7 +84,7 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
 
         <!-- Sidebar Footer -->
         <div class="sidebar-footer">
-            <a href="../index.php" target="_blank" class="sidebar-link" style="color: #94a3b8;">
+            <a href="/" target="_blank" class="sidebar-link" style="color: #94a3b8;">
                 <span class="nav-icon">🌐</span>
                 View Site
             </a>
@@ -106,7 +106,7 @@ $page_title = $page_titles[$current_page] ?? 'Admin Panel';
                 <span class="header-badge">Admin Panel</span>
                 <div class="admin-avatar" title="<?= htmlspecialchars($name) ?>">
                     <?php if (!empty($profile['profile_image'])): ?>
-                        <img src="../<?= htmlspecialchars($profile['profile_image']) ?>" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        <img src="../../<?= htmlspecialchars($profile['profile_image']) ?>" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     <?php else: ?>
                         <?= $initials ?>
                     <?php endif; ?>

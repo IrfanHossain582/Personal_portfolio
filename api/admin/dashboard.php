@@ -19,7 +19,7 @@ $logo_msg = '';
 $logo_msg_type = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'upload_logo') {
     if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = '../assets/img/';
+        $upload_dir = '../../assets/img/';
         if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
 
         $ext = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
@@ -92,7 +92,7 @@ $stats = [
                 <div class="text-center mb-4">
                     <?php if (!empty($logo_url)): ?>
                     <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 18px; overflow: hidden; background: #f8fafc; border: 2px solid #e2e8f0;">
-                        <img src="../<?= htmlspecialchars($logo_url) ?>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        <img src="../../<?= htmlspecialchars($logo_url) ?>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                     </div>
                     <p style="font-size: 0.78rem; color: #64748b;">Current logo</p>
                     <?php else: ?>
@@ -140,7 +140,7 @@ $stats = [
                     <a href="messages.php" class="btn-admin-outline w-100" style="justify-content: flex-start;">
                         ✉️ &nbsp; View Messages
                     </a>
-                    <a href="../index.php" target="_blank" class="btn-admin-outline w-100" style="justify-content: flex-start;">
+                    <a href="/" target="_blank" class="btn-admin-outline w-100" style="justify-content: flex-start;">
                         🌐 &nbsp; Open Portfolio Site
                     </a>
                 </div>

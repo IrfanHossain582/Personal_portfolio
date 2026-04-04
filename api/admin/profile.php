@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
     // Profile Image Upload
     if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = '../assets/img/';
+        $upload_dir = '../../assets/img/';
         if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
         $ext = strtolower(pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION));
         $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 </div>
                 <div class="admin-card-body text-center">
                     <?php if (!empty($profile['profile_image'])): ?>
-                    <img src="../<?= htmlspecialchars($profile['profile_image']) ?>" alt="Profile"
+                    <img src="../../<?= htmlspecialchars($profile['profile_image']) ?>" alt="Profile"
                          style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0; margin-bottom: 16px;">
                     <?php else: ?>
                     <div style="width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; font-size: 2.5rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
