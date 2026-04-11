@@ -67,6 +67,11 @@ $category_icons = [
 </head>
 <body>
 
+<!-- Scroll progress, cursor -->
+<div id="scrollProgress"></div>
+<div id="cursorDot" class="cursor-dot"></div>
+<div id="cursorRing" class="cursor-ring"></div>
+
 <!-- ========== NAVIGATION ========== -->
 <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
     <div class="container">
@@ -107,6 +112,9 @@ $category_icons = [
 <!-- ========== HERO SECTION ========== -->
 <section id="hero" class="hero">
 
+    <!-- Particle Canvas -->
+    <canvas id="heroCanvas" class="hero-canvas"></canvas>
+
     <!-- Animated Background -->
     <div class="hero-bg">
         <div class="hero-orb hero-orb-1"></div>
@@ -122,7 +130,8 @@ $category_icons = [
         <div class="row align-items-center g-5">
             <div class="col-lg-7 text-center text-lg-start">
                 <div class="hero-badge reveal">
-                    AI & Automation Engineer
+                    <span class="pulse-dot"></span>
+                    <span id="typewriter">AI &amp; Automation Engineer</span><span class="tw-cursor"></span>
                 </div>
                 <h1 class="reveal reveal-delay-1">
                     Turning Ideas Into<br>
@@ -209,24 +218,24 @@ $category_icons = [
             <h2 class="section-title reveal">My <span>Skills</span></h2>
             <div class="section-divider reveal"></div>
         </div>
-        <div class="row g-4">
+
+        <!-- Filter Buttons -->
+        <div class="skills-filter reveal">
+            <button class="filter-btn active" data-filter="all"><span>✦ All Skills</span></button>
+            <?php foreach (array_keys($grouped_skills) as $cat): ?>
+            <button class="filter-btn" data-filter="<?= htmlspecialchars($cat) ?>"><span><?= $category_icons[$cat] ?? '💡' ?> <?= htmlspecialchars($cat) ?></span></button>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Flat Skills Cloud -->
+        <div class="skills-cloud reveal">
             <?php foreach ($grouped_skills as $category => $skill_list): ?>
-            <div class="col-md-6 col-lg-4">
-                <div class="card-glass h-100 p-4 reveal">
-                    <div class="card-accent"></div>
-                    <div class="p-2">
-                        <div class="d-flex align-items-center gap-2 mb-3">
-                            <span style="font-size: 1.4rem;"><?= $category_icons[$category] ?? '💡' ?></span>
-                            <h5 class="fw-700 mb-0" style="color: var(--text-primary); font-weight: 700; font-size: 1rem;"><?= htmlspecialchars($category) ?></h5>
-                        </div>
-                        <div>
-                            <?php foreach ($skill_list as $skill): ?>
-                                <span class="skill-badge"><?= htmlspecialchars($skill) ?></span>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
+                <?php foreach ($skill_list as $skill): ?>
+                <div class="skill-item" data-category="<?= htmlspecialchars($category) ?>">
+                    <span class="skill-cat-icon"><?= $category_icons[$category] ?? '💡' ?></span>
+                    <span><?= htmlspecialchars($skill) ?></span>
                 </div>
-            </div>
+                <?php endforeach; ?>
             <?php endforeach; ?>
         </div>
     </div>
