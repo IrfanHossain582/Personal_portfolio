@@ -423,7 +423,12 @@ $category_icons = [
             <a href="mailto:<?= htmlspecialchars($profile['email']) ?>">Email</a>
             <?php endif; ?>
         </div>
-        <p style="color: #334155; font-size: 0.8rem;">© <?= date('Y') ?> <?= htmlspecialchars($profile['name']) ?>. Built with ❤️ & PHP.</p>
+        <div class="d-flex justify-content-center gap-3 mb-3 flex-wrap">
+            <a href="/privacy" style="color: #475569; font-size: 0.82rem; text-decoration: none;">Privacy Policy</a>
+            <span style="color: #334155; font-size: 0.82rem;">·</span>
+            <a href="/terms" style="color: #475569; font-size: 0.82rem; text-decoration: none;">Terms of Service</a>
+        </div>
+        <p style="color: #334155; font-size: 0.8rem;">© <?= date('Y') ?> <?= htmlspecialchars($profile['name']) ?>. All rights reserved.</p>
     </div>
 </footer>
 

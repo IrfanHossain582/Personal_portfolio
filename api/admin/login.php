@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login — Portfolio</title>
+    <title>Portfolio Manager — Irfan Hossain</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -212,8 +212,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="logo-box">I</div>
         <div class="login-card">
             <div class="header">
-                <h1>Admin Login</h1>
-                <p>Welcome back, Irfan</p>
+                <h1>Portfolio Manager</h1>
+                <p>Irfan Hossain · Personal Portfolio</p>
             </div>
 
             <?php if ($error): ?>
@@ -243,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
         <p class="footer-text">
-            © 2026 Admin Dashboard — Built with Modern PHP
+            © 2026 Irfan Hossain — Portfolio Management System
         </p>
     </div>
 </body>

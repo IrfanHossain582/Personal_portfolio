@@ -7,7 +7,7 @@
   "routes": [
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/api/contact", "dest": "/api/contact.php" },
-    { "src": "/login", "dest": "/api/admin/login.php" },
+    { "src": "/irfan-manage", "dest": "/api/admin/login.php" },
     { "src": "/admin/logout", "dest": "/api/admin/logout.php" },
     { "src": "/admin/dashboard", "dest": "/api/admin/dashboard.php" },
     { "src": "/admin/profile", "dest": "/api/admin/profile.php" },
@@ -17,7 +17,8 @@
     { "src": "/admin/experience", "dest": "/api/admin/experience.php" },
     { "src": "/admin/achievements", "dest": "/api/admin/achievements.php" },
     { "src": "/admin/messages", "dest": "/api/admin/messages.php" },
-    { "src": "/admin", "dest": "/api/admin/login.php" },
+    { "src": "/privacy", "dest": "/api/privacy.php" },
+    { "src": "/terms", "dest": "/api/terms.php" },
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)", "dest": "/api/index.php" }
   ]
