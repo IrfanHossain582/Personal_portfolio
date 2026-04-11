@@ -64,15 +64,6 @@ $category_icons = [
             document.documentElement.setAttribute('data-theme', t);
         })();
     </script>
-    <style>
-        /* Reveal Animation */
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .reveal.revealed { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .navbar.scrolled { padding: 8px 0 !important; }
-    </style>
 </head>
 <body>
 
@@ -122,6 +113,7 @@ $category_icons = [
         <div class="hero-orb hero-orb-2"></div>
         <div class="hero-orb hero-orb-3"></div>
         <div class="hero-orb hero-orb-4"></div>
+        <div class="hero-orb hero-orb-5"></div>
     </div>
     <div class="hero-grid"></div>
     <div class="hero-dots"></div>
@@ -143,12 +135,23 @@ $category_icons = [
                     <a href="#projects" class="btn-primary-custom">View My Work →</a>
                     <a href="<?= htmlspecialchars($profile['linkedin_url'] ?? '#') ?>" target="_blank" class="btn-outline-custom">LinkedIn ↗</a>
                 </div>
+                <!-- Hero Stats -->
+                <div class="hero-stats reveal reveal-delay-3">
+                    <div class="hero-stat"><strong><?= count($coding_projects) ?>+</strong> Projects</div>
+                    <div class="hero-stat"><strong><?= count($skills) ?>+</strong> Skills</div>
+                    <div class="hero-stat"><strong><?= count($experience) ?>+</strong> Experiences</div>
+                </div>
             </div>
             <div class="col-lg-5 text-center reveal">
                 <?php if (!empty($profile['profile_image'])): ?>
-                    <img src="<?= htmlspecialchars($profile['profile_image']) ?>"
-                         alt="<?= htmlspecialchars($profile['name']) ?>"
-                         class="profile-img">
+                    <div class="profile-img-wrapper d-inline-block position-relative">
+                        <div class="profile-img-glow profile-img-glow-1"></div>
+                        <div class="profile-img-glow profile-img-glow-2"></div>
+                        <div class="profile-img-ring"></div>
+                        <img src="<?= htmlspecialchars($profile['profile_image']) ?>"
+                             alt="<?= htmlspecialchars($profile['name']) ?>"
+                             class="profile-img">
+                    </div>
                 <?php else: ?>
                     <div class="profile-img d-flex align-items-center justify-content-center mx-auto"
                          style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-size:4rem;font-weight:800;border-radius:30px;aspect-ratio:1/1;">
@@ -404,31 +407,51 @@ $category_icons = [
 
 <!-- ========== FOOTER ========== -->
 <footer class="footer-section py-5">
-    <div class="container text-center">
-        <a class="navbar-brand d-inline-block mb-3" href="#" style="background: linear-gradient(135deg, #818cf8, #a78bfa); background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size: 1.6rem; font-weight: 900; text-decoration: none;">
-            <?= htmlspecialchars(explode(' ', $profile['name'])[0]) ?>.
-        </a>
-        <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 24px;"><?= htmlspecialchars($profile['title'] ?? '') ?></p>
-        <div class="d-flex justify-content-center gap-4 mb-4 flex-wrap">
-            <?php if (!empty($profile['github_url'])): ?>
-            <a href="<?= htmlspecialchars($profile['github_url']) ?>" target="_blank">GitHub</a>
-            <?php endif; ?>
-            <?php if (!empty($profile['linkedin_url'])): ?>
-            <a href="<?= htmlspecialchars($profile['linkedin_url']) ?>" target="_blank">LinkedIn</a>
-            <?php endif; ?>
-            <?php if (!empty($profile['portfolio_url'])): ?>
-            <a href="<?= htmlspecialchars($profile['portfolio_url']) ?>" target="_blank">Behance</a>
-            <?php endif; ?>
-            <?php if (!empty($profile['email'])): ?>
-            <a href="mailto:<?= htmlspecialchars($profile['email']) ?>">Email</a>
-            <?php endif; ?>
+    <div class="container footer-inner">
+        <!-- Top Row -->
+        <div class="text-center pb-4">
+            <a href="#" class="footer-brand mb-3 d-inline-block">
+                <?= htmlspecialchars(explode(' ', $profile['name'])[0]) ?>.
+            </a>
+            <p style="color: #475569; font-size: 0.92rem; margin-top: 10px; margin-bottom: 28px; max-width: 420px; margin-left: auto; margin-right: auto;"><?= htmlspecialchars($profile['title'] ?? '') ?></p>
+            <!-- Social Links -->
+            <div class="d-flex justify-content-center gap-3 flex-wrap mb-2">
+                <?php if (!empty($profile['github_url'])): ?>
+                <a href="<?= htmlspecialchars($profile['github_url']) ?>" target="_blank" class="footer-social-link">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <?php endif; ?>
+                <?php if (!empty($profile['linkedin_url'])): ?>
+                <a href="<?= htmlspecialchars($profile['linkedin_url']) ?>" target="_blank" class="footer-social-link">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    LinkedIn
+                </a>
+                <?php endif; ?>
+                <?php if (!empty($profile['portfolio_url'])): ?>
+                <a href="<?= htmlspecialchars($profile['portfolio_url']) ?>" target="_blank" class="footer-social-link">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M0 1.826C0 .818.819 0 1.826 0H22.17C23.18 0 24 .82 24 1.826v20.348C24 23.18 23.18 24 22.17 24H1.826C.818 24 0 23.18 0 22.174V1.826zm19.063 16.91v-8.48l-7.082 7.08 1.404 1.4 4.65-4.64v4.64h1.028zm-9.647 0v-4.64l-4.65 4.64-1.404-1.4 7.082-7.08v8.48H9.416zm9.647-11.472v-4.64h-1.028v4.64l-4.65-4.64-1.404 1.4 7.082 7.08v-8.48zm-9.647 0v8.48l7.082-7.08-1.404-1.4-4.65 4.64V7.264H9.416z"/></svg>
+                    Behance
+                </a>
+                <?php endif; ?>
+                <?php if (!empty($profile['email'])): ?>
+                <a href="mailto:<?= htmlspecialchars($profile['email']) ?>" class="footer-social-link">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636C.732 21.002 0 20.27 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+                    Email
+                </a>
+                <?php endif; ?>
+            </div>
         </div>
-        <div class="d-flex justify-content-center gap-3 mb-3 flex-wrap">
-            <a href="/privacy" style="color: #475569; font-size: 0.82rem; text-decoration: none;">Privacy Policy</a>
-            <span style="color: #334155; font-size: 0.82rem;">·</span>
-            <a href="/terms" style="color: #475569; font-size: 0.82rem; text-decoration: none;">Terms of Service</a>
+        <div class="footer-divider"></div>
+        <!-- Bottom Row -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <p style="color: #334155; font-size: 0.8rem; margin: 0;">© <?= date('Y') ?> <?= htmlspecialchars($profile['name']) ?>. All rights reserved.</p>
+            <div class="d-flex gap-3">
+                <a href="/privacy" class="footer-legal-link">Privacy Policy</a>
+                <span style="color: #1e293b;">·</span>
+                <a href="/terms" class="footer-legal-link">Terms of Service</a>
+            </div>
         </div>
-        <p style="color: #334155; font-size: 0.8rem;">© <?= date('Y') ?> <?= htmlspecialchars($profile['name']) ?>. All rights reserved.</p>
     </div>
 </footer>
 
