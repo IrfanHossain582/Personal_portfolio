@@ -246,21 +246,25 @@ $category_icons = [
     <div class="container py-5">
         <div class="text-center mb-5">
             <span class="section-tag reveal">Portfolio</span>
-            <h2 class="section-title reveal">AI & Dev <span>Projects</span></h2>
+            <h2 class="section-title reveal">AI &amp; Dev <span>Projects</span></h2>
             <div class="section-divider reveal"></div>
         </div>
         <div class="row g-4">
             <?php foreach ($coding_projects as $i => $proj): ?>
             <div class="col-md-6 col-lg-4">
-                <div class="card-glass h-100 p-4 reveal reveal-delay-<?= ($i % 3) + 1 ?>">
+                <div class="card-glass project-card h-100 reveal reveal-delay-<?= ($i % 3) + 1 ?>">
                     <div class="card-accent"></div>
-                    <div class="p-2">
-                        <span class="skill-badge mb-3 d-inline-block"><?= htmlspecialchars($proj['technology_used'] ?? 'AI') ?></span>
-                        <h5 class="fw-bold mt-2 mb-2" style="color: var(--text-primary);"><?= htmlspecialchars($proj['project_name']) ?></h5>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;"><?= htmlspecialchars($proj['description'] ?? '') ?></p>
+                    <div class="card-number"><?= str_pad($i + 1, 2, '0', STR_PAD_LEFT) ?></div>
+                    <div class="card-glow-blob"></div>
+                    <div class="project-body">
+                        <div class="project-tech-tag mb-3">
+                            <?= htmlspecialchars($proj['technology_used'] ?? 'AI') ?>
+                        </div>
+                        <span class="project-title"><?= htmlspecialchars($proj['project_name']) ?></span>
+                        <p class="project-desc"><?= htmlspecialchars($proj['description'] ?? '') ?></p>
                         <?php if (!empty($proj['live_demo_link'])): ?>
-                        <a href="<?= htmlspecialchars($proj['live_demo_link']) ?>" target="_blank" class="btn-outline-custom mt-2" style="padding: 7px 18px; font-size: 0.82rem;">
-                            View Demo ↗
+                        <a href="<?= htmlspecialchars($proj['live_demo_link']) ?>" target="_blank" class="project-link">
+                            View Demo <span class="arrow">&#8599;</span>
                         </a>
                         <?php endif; ?>
                     </div>
@@ -276,17 +280,19 @@ $category_icons = [
             <div class="section-divider reveal"></div>
         </div>
         <div class="row g-4 justify-content-center">
-            <?php foreach ($ui_projects as $proj): ?>
+            <?php foreach ($ui_projects as $i => $proj): ?>
             <div class="col-md-6">
-                <div class="card-glass p-4 text-center reveal">
+                <div class="card-glass project-card h-100 reveal">
                     <div class="card-accent"></div>
-                    <div class="p-3">
-                        <span style="font-size: 2rem;">🎨</span>
-                        <h5 class="fw-bold mt-3 mb-2" style="color: var(--text-primary);"><?= htmlspecialchars($proj['project_name']) ?></h5>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;"><?= htmlspecialchars($proj['description'] ?? '') ?></p>
+                    <div class="card-number"><?= str_pad($i + 1, 2, '0', STR_PAD_LEFT) ?></div>
+                    <div class="card-glow-blob" style="background:radial-gradient(circle,var(--accent-4) 0%,transparent 70%);"></div>
+                    <div class="project-body">
+                        <div class="project-tech-tag mb-3">🎨 UI/UX</div>
+                        <span class="project-title"><?= htmlspecialchars($proj['project_name']) ?></span>
+                        <p class="project-desc"><?= htmlspecialchars($proj['description'] ?? '') ?></p>
                         <?php if (!empty($proj['live_demo_link'])): ?>
-                        <a href="<?= htmlspecialchars($proj['live_demo_link']) ?>" target="_blank" class="btn-primary-custom mt-2" style="font-size: 0.88rem; padding: 10px 24px;">
-                            View on Behance ↗
+                        <a href="<?= htmlspecialchars($proj['live_demo_link']) ?>" target="_blank" class="project-link">
+                            View on Behance <span class="arrow">&#8599;</span>
                         </a>
                         <?php endif; ?>
                     </div>
@@ -303,7 +309,7 @@ $category_icons = [
     <div class="container py-5">
         <div class="text-center mb-5">
             <span class="section-tag reveal">Background</span>
-            <h2 class="section-title reveal">Education & <span>Achievements</span></h2>
+            <h2 class="section-title reveal">Education &amp; <span>Achievements</span></h2>
             <div class="section-divider reveal"></div>
         </div>
         <div class="row g-5">
@@ -311,15 +317,19 @@ $category_icons = [
             <div class="col-lg-6">
                 <div class="card-glass p-4 h-100 reveal">
                     <div class="card-accent"></div>
+                    <div class="card-glow-blob" style="background:radial-gradient(circle,var(--accent-3) 0%,transparent 70%);"></div>
                     <div class="p-3">
-                        <h4 class="fw-bold mb-4" style="color: var(--text-primary);">🎓 Education</h4>
+                        <div class="section-card-header">
+                            <div class="section-card-icon">🎓</div>
+                            <h4 class="section-card-title">Education</h4>
+                        </div>
                         <div class="timeline">
                             <?php foreach ($education as $edu): ?>
                             <div class="timeline-item">
                                 <span class="timeline-label"><?= htmlspecialchars($edu['end_year']) ?></span>
-                                <h5 class="fw-bold mb-1" style="color: var(--text-primary);"><?= htmlspecialchars($edu['degree']) ?></h5>
-                                <p style="color: var(--accent-1); font-weight: 600; font-size: 0.9rem; margin-bottom: 4px;"><?= htmlspecialchars($edu['institution_name']) ?></p>
-                                <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">CGPA: <?= htmlspecialchars($edu['cgpa']) ?></p>
+                                <h5 class="fw-bold mb-1" style="color: var(--text-primary); font-size: 1rem; letter-spacing: -0.3px;"><?= htmlspecialchars($edu['degree']) ?></h5>
+                                <p style="color: var(--accent-1); font-weight: 600; font-size: 0.88rem; margin-bottom: 4px;"><?= htmlspecialchars($edu['institution_name']) ?></p>
+                                <p style="color: var(--text-muted); font-size: 0.82rem; margin: 0;">CGPA: <?= htmlspecialchars($edu['cgpa']) ?></p>
                             </div>
                             <?php endforeach; ?>
                         </div>
@@ -330,16 +340,18 @@ $category_icons = [
             <div class="col-lg-6">
                 <div class="card-glass p-4 h-100 reveal reveal-delay-1">
                     <div class="card-accent"></div>
+                    <div class="card-glow-blob" style="background:radial-gradient(circle,var(--accent-4) 0%,transparent 70%);"></div>
                     <div class="p-3">
-                        <h4 class="fw-bold mb-4" style="color: var(--text-primary);">🏆 Achievements</h4>
+                        <div class="section-card-header">
+                            <div class="section-card-icon">🏆</div>
+                            <h4 class="section-card-title">Achievements</h4>
+                        </div>
                         <?php foreach ($achievements as $ach): ?>
-                        <div class="mb-4 pb-4" style="border-bottom: 1px solid var(--border-color);">
-                            <div class="d-flex align-items-start gap-3">
-                                <span style="font-size: 1.5rem; min-width: 36px;">⭐</span>
-                                <div>
-                                    <h6 class="fw-bold mb-1" style="color: var(--text-primary);"><?= htmlspecialchars($ach['title']) ?></h6>
-                                    <p style="color: var(--text-secondary); font-size: 0.87rem; margin: 0;"><?= htmlspecialchars($ach['description']) ?></p>
-                                </div>
+                        <div class="achievement-item">
+                            <div class="achievement-star">⭐</div>
+                            <div>
+                                <h6 style="font-weight: 800; font-size: 0.92rem; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.2px;"><?= htmlspecialchars($ach['title']) ?></h6>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0; line-height: 1.6;"><?= htmlspecialchars($ach['description']) ?></p>
                             </div>
                         </div>
                         <?php endforeach; ?>
@@ -362,15 +374,21 @@ $category_icons = [
             <div class="col-lg-8">
                 <div class="card-glass p-4 reveal">
                     <div class="card-accent"></div>
+                    <div class="card-glow-blob"></div>
                     <div class="p-3">
-                        <div class="timeline">
-                            <?php foreach ($experience as $exp): ?>
-                            <div class="timeline-item">
-                                <h5 class="fw-bold mb-1" style="color: var(--text-primary);"><?= htmlspecialchars($exp['company_name']) ?></h5>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;"><?= htmlspecialchars($exp['description']) ?></p>
-                            </div>
-                            <?php endforeach; ?>
+                        <div class="section-card-header">
+                            <div class="section-card-icon">💼</div>
+                            <h4 class="section-card-title">Work History</h4>
                         </div>
+                        <?php foreach ($experience as $i => $exp): ?>
+                        <div class="exp-item">
+                            <div class="exp-dot"><?= ['🚀','💡','⚡','🔬','🎯'][$i % 5] ?></div>
+                            <div>
+                                <span class="exp-company"><?= htmlspecialchars($exp['company_name']) ?></span>
+                                <p class="exp-desc"><?= htmlspecialchars($exp['description']) ?></p>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>

@@ -487,6 +487,7 @@ body {
 /* -------------------------------------------------------
    CARDS — GLASSMORPHISM
    ------------------------------------------------------- */
+/* ---- BASE GLASS CARD ---- */
 .card-glass {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -498,25 +499,192 @@ body {
               box-shadow 0.38s ease, border-color 0.38s ease;
   position: relative; overflow: hidden;
   will-change: transform;
+  --spotlight-x: 50%;
+  --spotlight-y: 50%;
 }
-/* shimmer sweep */
+/* Shimmer sweep */
 .card-glass::before {
   content: ''; position: absolute;
-  top: 0; left: -100%;
-  width: 60%; height: 100%;
+  top: 0; left: -100%; width: 60%; height: 100%;
   background: linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.09) 50%,transparent 60%);
   transition: left 0.55s ease; pointer-events: none; z-index: 1;
 }
 .card-glass:hover::before { left: 160%; }
+/* Mouse spotlight */
+.card-glass::after {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(
+    280px circle at var(--spotlight-x) var(--spotlight-y),
+    rgba(99,102,241,0.12), transparent 70%
+  );
+  opacity: 0; transition: opacity 0.35s ease;
+  border-radius: inherit; pointer-events: none;
+}
+.card-glass:hover::after { opacity: 1; }
 .card-glass:hover {
-  transform: translateY(-10px) scale(1.01);
-  box-shadow: var(--shadow-hover), 0 0 32px var(--glow), inset 0 1px 0 rgba(255,255,255,0.14);
-  border-color: rgba(99,102,241,0.35);
+  transform: translateY(-10px) scale(1.015);
+  box-shadow: var(--shadow-hover), 0 0 40px var(--glow),
+              inset 0 1px 0 rgba(255,255,255,0.14);
+  border-color: rgba(99,102,241,0.38);
 }
 .card-glass .card-accent {
   height: 3px; background: var(--gradient-vivid); background-size: 200% 200%;
   animation: gradientShift 4s ease infinite;
   border-radius: 3px 3px 0 0; margin: -1px -1px 0;
+}
+
+/* ===============================================
+   PROJECT CARDS — PREMIUM
+   =============================================== */
+
+/* Watermark number */
+.card-number {
+  position: absolute; top: 12px; right: 18px;
+  font-size: 5.5rem; font-weight: 900; line-height: 1;
+  background: var(--gradient-text); background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  opacity: 0.06; letter-spacing: -5px; user-select: none;
+  pointer-events: none; z-index: 0;
+  transition: opacity 0.4s ease;
+}
+.card-glass:hover .card-number { opacity: 0.14; }
+
+/* Ambient inner glow blob */
+.card-glow-blob {
+  position: absolute; width: 220px; height: 220px; border-radius: 50%;
+  filter: blur(55px);
+  background: radial-gradient(circle,var(--accent-1) 0%,transparent 70%);
+  opacity: 0; top: -60px; right: -60px;
+  transition: opacity 0.6s ease; pointer-events: none; z-index: 0;
+}
+.card-glass:hover .card-glow-blob { opacity: 0.18; }
+
+/* Inner gradient mesh background on hover */
+.project-card {
+  background: var(--card-bg);
+  transition: background 0.4s ease;
+}
+[data-theme="dark"] .project-card:hover {
+  background: linear-gradient(145deg, rgba(13,18,38,0.90) 0%, rgba(20,10,50,0.85) 100%);
+}
+
+/* Tech tag */
+.project-tech-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 50px;
+  background: var(--badge-bg); border: 1px solid var(--badge-border);
+  color: var(--badge-text); font-size: 0.76rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  position: relative; z-index: 1;
+  transition: all 0.3s ease;
+}
+.card-glass:hover .project-tech-tag {
+  background: var(--gradient-btn); color: #fff; border-color: transparent;
+  box-shadow: 0 4px 14px var(--glow);
+}
+
+/* Project title */
+.project-title {
+  font-size: 1.18rem; font-weight: 800; letter-spacing: -0.5px;
+  color: var(--text-primary); line-height: 1.3;
+  margin-bottom: 10px; position: relative; z-index: 1;
+  transition: all 0.35s ease;
+  display: block;
+}
+.card-glass:hover .project-title {
+  background: var(--gradient-text); background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* Project description */
+.project-desc {
+  color: var(--text-secondary); font-size: 0.9rem; line-height: 1.75;
+  position: relative; z-index: 1; margin-bottom: 0;
+  flex: 1;
+}
+
+/* Arrow link at bottom */
+.project-link {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 20px;
+  font-size: 0.84rem; font-weight: 700; color: var(--accent-1);
+  text-decoration: none; position: relative; z-index: 1;
+  padding-bottom: 2px;
+  border-bottom: 1.5px solid rgba(99,102,241,0.25);
+  transition: all 0.28s ease;
+}
+.project-link:hover { color: var(--accent-2); border-color: var(--accent-2); transform: translateX(5px); }
+.project-link .arrow { transition: transform 0.28s ease; }
+.project-link:hover .arrow { transform: translate(4px,-4px); }
+
+/* Card body flex layout */
+.project-body {
+  display: flex; flex-direction: column;
+  height: 100%; padding: 28px; position: relative; z-index: 1;
+}
+
+/* ===============================================
+   EDUCATION, ACHIEVEMENTS, EXPERIENCE — PREMIUM
+   =============================================== */
+
+.section-card-header {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+}
+.section-card-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--gradient-btn);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+  box-shadow: 0 6px 20px var(--glow);
+}
+.section-card-title {
+  font-size: 1.15rem; font-weight: 800; letter-spacing: -0.4px;
+  color: var(--text-primary); margin: 0;
+}
+
+/* Achievement item */
+.achievement-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+.achievement-item:last-child { border-bottom: none; padding-bottom: 0; }
+.achievement-item:hover { padding-left: 6px; }
+.achievement-star {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--badge-bg); border: 1px solid var(--badge-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+.achievement-item:hover .achievement-star {
+  background: var(--gradient-btn); border-color: transparent;
+  box-shadow: 0 4px 12px var(--glow);
+}
+
+/* Experience timeline item upgrade */
+.exp-item {
+  display: flex; gap: 16px; padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+.exp-item:last-child { border-bottom: none; padding-bottom: 0; }
+.exp-dot {
+  width: 44px; height: 44px; border-radius: 13px;
+  background: var(--gradient-btn);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+  box-shadow: 0 4px 14px var(--glow);
+  transition: all 0.3s ease;
+}
+.exp-item:hover .exp-dot { transform: scale(1.1); box-shadow: 0 6px 20px var(--glow); }
+.exp-company {
+  font-size: 1rem; font-weight: 800; color: var(--text-primary);
+  letter-spacing: -0.3px; margin-bottom: 4px;
+  display: block;
+}
+.exp-desc {
+  color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7;
 }
 
 /* -------------------------------------------------------

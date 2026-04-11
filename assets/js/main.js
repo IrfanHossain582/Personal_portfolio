@@ -293,16 +293,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ======================================================
-    // 3D CARD TILT
+    // 3D TILT + SPOTLIGHT (combined per-card)
     // ======================================================
     document.querySelectorAll('.card-glass').forEach(card => {
         card.addEventListener('mousemove', e => {
-            const r   = card.getBoundingClientRect();
-            const x   = (e.clientX - r.left) / r.width  - 0.5;
-            const y   = (e.clientY - r.top)  / r.height - 0.5;
-            card.style.transform = `translateY(-10px) scale(1.01) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
+            const r  = card.getBoundingClientRect();
+            const px = e.clientX - r.left;   // pixel x in card
+            const py = e.clientY - r.top;    // pixel y in card
+            const nx = px / r.width  - 0.5;  // normalised -0.5..0.5
+            const ny = py / r.height - 0.5;
+            // Spotlight CSS vars
+            card.style.setProperty('--spotlight-x', px + 'px');
+            card.style.setProperty('--spotlight-y', py + 'px');
+            // 3D tilt
+            card.style.transform =
+                `translateY(-10px) scale(1.015) rotateX(${-ny * 6}deg) rotateY(${nx * 6}deg)`;
         });
-        card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+            card.style.setProperty('--spotlight-x', '50%');
+            card.style.setProperty('--spotlight-y', '50%');
+        });
     });
 
     // ======================================================
