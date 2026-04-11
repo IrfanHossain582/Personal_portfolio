@@ -252,22 +252,19 @@ $category_icons = [
         <div class="row g-4">
             <?php foreach ($coding_projects as $i => $proj): ?>
             <div class="col-md-6 col-lg-4">
-                <div class="card-glass project-card h-100 reveal reveal-delay-<?= ($i % 3) + 1 ?>">
-                    <div class="card-accent"></div>
-                    <div class="card-number"><?= str_pad($i + 1, 2, '0', STR_PAD_LEFT) ?></div>
-                    <div class="card-glow-blob"></div>
-                    <div class="project-body">
-                        <div class="project-tech-tag mb-3">
-                            <?= htmlspecialchars($proj['technology_used'] ?? 'AI') ?>
-                        </div>
-                        <span class="project-title"><?= htmlspecialchars($proj['project_name']) ?></span>
-                        <p class="project-desc"><?= htmlspecialchars($proj['description'] ?? '') ?></p>
-                        <?php if (!empty($proj['live_demo_link'])): ?>
-                        <a href="<?= htmlspecialchars($proj['live_demo_link']) ?>" target="_blank" class="project-link">
-                            View Demo <span class="arrow">&#8599;</span>
-                        </a>
-                        <?php endif; ?>
+                <div class="modern-card project-card reveal reveal-delay-<?= ($i % 3) + 1 ?>">
+                    <div class="project-tech-tag">
+                        <?= htmlspecialchars($proj['technology_used'] ?? 'AI') ?>
                     </div>
+                    <span class="project-title"><?= htmlspecialchars($proj['project_name']) ?></span>
+                    <p class="project-desc"><?= htmlspecialchars($proj['description'] ?? '') ?></p>
+                    <?php if (!empty($proj['live_demo_link'])): ?>
+                    <div class="mt-auto">
+                        <a href="<?= htmlspecialchars($proj['live_demo_link']) ?>" target="_blank" class="project-link">
+                            View Project <span class="arrow">&#8594;</span>
+                        </a>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -282,20 +279,17 @@ $category_icons = [
         <div class="row g-4 justify-content-center">
             <?php foreach ($ui_projects as $i => $proj): ?>
             <div class="col-md-6">
-                <div class="card-glass project-card h-100 reveal">
-                    <div class="card-accent"></div>
-                    <div class="card-number"><?= str_pad($i + 1, 2, '0', STR_PAD_LEFT) ?></div>
-                    <div class="card-glow-blob" style="background:radial-gradient(circle,var(--accent-4) 0%,transparent 70%);"></div>
-                    <div class="project-body">
-                        <div class="project-tech-tag mb-3">🎨 UI/UX</div>
-                        <span class="project-title"><?= htmlspecialchars($proj['project_name']) ?></span>
-                        <p class="project-desc"><?= htmlspecialchars($proj['description'] ?? '') ?></p>
-                        <?php if (!empty($proj['live_demo_link'])): ?>
+                <div class="modern-card project-card reveal">
+                    <div class="project-tech-tag">UI/UX Design</div>
+                    <span class="project-title"><?= htmlspecialchars($proj['project_name']) ?></span>
+                    <p class="project-desc"><?= htmlspecialchars($proj['description'] ?? '') ?></p>
+                    <?php if (!empty($proj['live_demo_link'])): ?>
+                    <div class="mt-auto">
                         <a href="<?= htmlspecialchars($proj['live_demo_link']) ?>" target="_blank" class="project-link">
-                            View on Behance <span class="arrow">&#8599;</span>
+                            View on Behance <span class="arrow">&#8594;</span>
                         </a>
-                        <?php endif; ?>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -315,21 +309,20 @@ $category_icons = [
         <div class="row g-5">
             <!-- Education -->
             <div class="col-lg-6">
-                <div class="card-glass p-4 h-100 reveal">
-                    <div class="card-accent"></div>
-                    <div class="card-glow-blob" style="background:radial-gradient(circle,var(--accent-3) 0%,transparent 70%);"></div>
-                    <div class="p-3">
+                <div class="modern-card h-100 reveal">
+                    <div class="section-body">
                         <div class="section-card-header">
-                            <div class="section-card-icon">🎓</div>
+                            <div class="section-card-icon">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path></svg>
+                            </div>
                             <h4 class="section-card-title">Education</h4>
                         </div>
-                        <div class="timeline">
+                        <div>
                             <?php foreach ($education as $edu): ?>
-                            <div class="timeline-item">
-                                <span class="timeline-label"><?= htmlspecialchars($edu['end_year']) ?></span>
-                                <h5 class="fw-bold mb-1" style="color: var(--text-primary); font-size: 1rem; letter-spacing: -0.3px;"><?= htmlspecialchars($edu['degree']) ?></h5>
-                                <p style="color: var(--accent-1); font-weight: 600; font-size: 0.88rem; margin-bottom: 4px;"><?= htmlspecialchars($edu['institution_name']) ?></p>
-                                <p style="color: var(--text-muted); font-size: 0.82rem; margin: 0;">CGPA: <?= htmlspecialchars($edu['cgpa']) ?></p>
+                            <div class="list-item-clean">
+                                <span class="item-meta-clean"><?= htmlspecialchars($edu['end_year']) ?></span>
+                                <span class="item-title-clean"><?= htmlspecialchars($edu['degree']) ?></span>
+                                <p class="item-subtitle-clean"><?= htmlspecialchars($edu['institution_name']) ?> &bull; CGPA: <?= htmlspecialchars($edu['cgpa']) ?></p>
                             </div>
                             <?php endforeach; ?>
                         </div>
@@ -338,23 +331,22 @@ $category_icons = [
             </div>
             <!-- Achievements -->
             <div class="col-lg-6">
-                <div class="card-glass p-4 h-100 reveal reveal-delay-1">
-                    <div class="card-accent"></div>
-                    <div class="card-glow-blob" style="background:radial-gradient(circle,var(--accent-4) 0%,transparent 70%);"></div>
-                    <div class="p-3">
+                <div class="modern-card h-100 reveal reveal-delay-1">
+                    <div class="section-body">
                         <div class="section-card-header">
-                            <div class="section-card-icon">🏆</div>
+                            <div class="section-card-icon">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                            </div>
                             <h4 class="section-card-title">Achievements</h4>
                         </div>
-                        <?php foreach ($achievements as $ach): ?>
-                        <div class="achievement-item">
-                            <div class="achievement-star">⭐</div>
-                            <div>
-                                <h6 style="font-weight: 800; font-size: 0.92rem; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.2px;"><?= htmlspecialchars($ach['title']) ?></h6>
-                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0; line-height: 1.6;"><?= htmlspecialchars($ach['description']) ?></p>
+                        <div>
+                            <?php foreach ($achievements as $ach): ?>
+                            <div class="list-item-clean">
+                                <span class="item-title-clean"><?= htmlspecialchars($ach['title']) ?></span>
+                                <p class="item-subtitle-clean"><?= htmlspecialchars($ach['description']) ?></p>
                             </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -372,23 +364,22 @@ $category_icons = [
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card-glass p-4 reveal">
-                    <div class="card-accent"></div>
-                    <div class="card-glow-blob"></div>
-                    <div class="p-3">
+                <div class="modern-card reveal">
+                    <div class="section-body">
                         <div class="section-card-header">
-                            <div class="section-card-icon">💼</div>
+                            <div class="section-card-icon">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
                             <h4 class="section-card-title">Work History</h4>
                         </div>
-                        <?php foreach ($experience as $i => $exp): ?>
-                        <div class="exp-item">
-                            <div class="exp-dot"><?= ['🚀','💡','⚡','🔬','🎯'][$i % 5] ?></div>
-                            <div>
-                                <span class="exp-company"><?= htmlspecialchars($exp['company_name']) ?></span>
-                                <p class="exp-desc"><?= htmlspecialchars($exp['description']) ?></p>
+                        <div>
+                            <?php foreach ($experience as $exp): ?>
+                            <div class="list-item-clean">
+                                <span class="item-title-clean"><?= htmlspecialchars($exp['company_name']) ?></span>
+                                <p class="item-subtitle-clean"><?= htmlspecialchars($exp['description']) ?></p>
                             </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -407,23 +398,22 @@ $category_icons = [
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
-                <div class="card-glass p-5 reveal">
-                    <div class="card-accent"></div>
-                    <div class="p-2">
+                <div class="modern-card p-4 p-md-5 reveal">
+                    <div>
                         <form id="contactForm" method="POST" action="/api/contact">
                             <div class="mb-3">
-                                <label class="form-label">Full Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Your name" required>
+                                <label class="form-label" style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Full Name</label>
+                                <input type="text" name="name" class="form-control hover-border-light" placeholder="Your name" required style="border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); transition: border-color 0.2s;">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Email Address</label>
-                                <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
+                                <label class="form-label" style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Email</label>
+                                <input type="email" name="email" class="form-control hover-border-light" placeholder="you@example.com" required style="border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); transition: border-color 0.2s;">
                             </div>
                             <div class="mb-4">
-                                <label class="form-label">Message</label>
-                                <textarea name="message" class="form-control" rows="5" placeholder="Tell me about your project..." required></textarea>
+                                <label class="form-label" style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Message</label>
+                                <textarea name="message" class="form-control hover-border-light" rows="5" placeholder="Tell me about your project..." required style="border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); transition: border-color 0.2s;"></textarea>
                             </div>
-                            <button type="submit" class="btn-primary-custom w-100 justify-content-center" style="border-radius: 12px;">Send Message →</button>
+                            <button type="submit" class="btn-primary-custom w-100 justify-content-center" style="border-radius: 10px; font-weight: 600; letter-spacing: -0.2px;">Send Message &rarr;</button>
                         </form>
                     </div>
                 </div>
