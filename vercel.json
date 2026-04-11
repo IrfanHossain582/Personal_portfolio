@@ -6,6 +6,7 @@
   },
   "routes": [
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/robots.txt", "dest": "/robots.txt" },
     { "src": "/api/contact", "dest": "/api/contact.php" },
     { "src": "/irfan-manage", "dest": "/api/admin/login.php" },
     { "src": "/admin/logout", "dest": "/api/admin/logout.php" },
@@ -19,7 +20,7 @@
     { "src": "/admin/messages", "dest": "/api/admin/messages.php" },
     { "src": "/privacy", "dest": "/api/privacy.php" },
     { "src": "/terms", "dest": "/api/terms.php" },
-    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/api/admin/(.*)", "dest": "/api/index.php" },
     { "src": "/(.*)", "dest": "/api/index.php" }
   ]
 }

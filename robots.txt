@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /api/admin/
+Disallow: /irfan-manage
+Disallow: /admin/
+Allow: /
+
+Sitemap: https://personal-portfolio-pied-one-13.vercel.app/sitemap.xml
